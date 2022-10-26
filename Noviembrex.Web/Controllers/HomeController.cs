@@ -15,5 +15,6 @@ namespace Noviembrex.Web.Controllers {
         public ActionResult Bienvenida() {
             return View();
         }
+
     }
 }
