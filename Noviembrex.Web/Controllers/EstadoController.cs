@@ -5,15 +5,22 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Noviembrex.Web.Controllers
-{
-    public class EstadoController : Controller
-    {
-        // GET: Estado
-        public ActionResult Index()
-        {
+namespace Noviembrex.Web.Controllers {
+    public class EstadoController : Controller {
+
+        public ActionResult Index() {
             List<Estado> estados = Estado.GetAll();
             return View(estados);
+        }
+
+        public ActionResult Registro() {
+            return View();
+        }
+
+        public ActionResult Guardar(string nombre) {
+            Estado.Guardar(nombre);
+            return RedirectToAction("Index");
+
         }
     }
 }

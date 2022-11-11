@@ -17,7 +17,7 @@ namespace Noviembrex.Core.Entidades {
             try {
                 Conexion conexion = new Conexion();
                 if (conexion.OpenConnection()) {
-                    string query = "SELECT id, nombre FROM estado;";
+                    string query = "SELECT id, nombre FROM estado ORDER BY nombre;";
 
                     MySqlCommand command = new MySqlCommand(query, conexion.connection);
 
@@ -39,5 +39,54 @@ namespace Noviembrex.Core.Entidades {
             }
             return estados;
         }
+
+        public static bool Guardar(string nombre) {
+            bool result = false;
+            try {
+                Conexion conexion = new Conexion();
+                if (conexion.OpenConnection()) {
+                    MySqlCommand cmd =conexion.connection.CreateCommand();
+                    cmd.CommandText = "INSERT INTO estado (nombre) VALUES (@nombre)";
+                    cmd.Parameters.AddWithValue("@nombre", nombre);
+
+                    result = cmd.ExecuteNonQuery() == 1;
+
+                    /*if(cmd.ExecuteNonQuery() == 1) {
+                        result = true;
+                    } else {
+                        result = false;
+                    }*/
+                }
+            } catch (Exception ex) {
+                throw ex;
+            }
+            return result;
+        }
+
+
+        public bool Editar (int id, string nombre) {
+            bool result = false;
+            try {
+                Conexion conexion = new Conexion();
+                if (conexion.OpenConnection()) {
+                    MySqlCommand cmd = conexion.connection.CreateCommand();
+                    cmd.CommandText = "UPDATE estado SET nombre = @nombre WHERE id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@nombre", nombre);
+
+                    result = cmd.ExecuteNonQuery() == 1;
+
+                    /*if(cmd.ExecuteNonQuery() == 1) {
+                        result = true;
+                    } else {
+                        result = false;
+                    }*/
+                }
+            } catch (Exception ex) {
+                throw ex;
+            }
+            return result;
+        }
+
     }
 }
